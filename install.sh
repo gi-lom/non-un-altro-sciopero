@@ -11,7 +11,11 @@ echo "IMPORTANTE: lo script NON funzionerà con browser installati tramite Flatp
 echo ""
 
 USRN=$(id -u -n)
-USRPATH="/home/$USRN/.local/share"
+SYSTM="home"
+if [ $OSTYPE = 'darwin'* ]; then
+    SYSTM="Users"
+fi
+USRPATH="/$SYSTM/$USRN/.local/share"
 
 # Controllo se è root
 if [ "$(id -u)" -eq 0 ]; then
