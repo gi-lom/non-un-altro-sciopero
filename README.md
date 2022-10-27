@@ -23,3 +23,10 @@ Se hai un browser basato su Chromium che non è incluso nella lista, puoi provar
 **NON SONO SUPPORTATI BROWSER BASATI SU WEBKIT COME SAFARI E GNOME WEB**
 
 **NON SONO SUPPORTATI BROWSER INSTALLATI TRAMITE SNAP E FLATPAK**
+
+
+## Testing
+Ho testato lo script su Fedora 36. Ho fatto in modo che lo script funzioni allo stesso modo su tutte le distro Linux. Non possiedo un sistema macOS, dunque non ho modo di vedere se funziona là.
+
+## Futuro
+I miei prossimi obiettivi sono fare in modo che possa funzionare anche su Windows, probabilmente sfruttando WSL, e vedere se posso aggiungere il supporto a Webkit.
