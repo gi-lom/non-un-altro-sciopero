@@ -19,5 +19,7 @@ I browser attualmente supportati sono:
 - Librewolf
 
 Se hai un browser basato su Chromium che non è incluso nella lista, puoi provare a dire allo script che hai Chromium installato.
+
 **NON SONO SUPPORTATI BROWSER BASATI SU WEBKIT COME SAFARI E GNOME WEB**
+
 **NON SONO SUPPORTATI BROWSER INSTALLATI TRAMITE SNAP E FLATPAK**
