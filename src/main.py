@@ -95,23 +95,25 @@ def main():
             driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install(), options=options)
 
         # Esegui il driver
-        train_checker(
-            driver,
-            "https://www.trenord.it/",
-            "Trenord",
-            ".container-alert .alert .text",
-            "//*[contains(@class,'alert') and .//*[contains(text(), 'Sciopero')]]",
-            path
-        )
-        train_checker(
-            driver,
-            # 'https://web.archive.org/web/20220626200054/https://www.atm.it/it/Pagine/default.aspx', # test url
-            "https://www.atm.it/it/Pagine/default.aspx",
-            "ATM",
-            "#infomobilita",
-            "//*[contains(@class,'news-item') and .//*[contains(text(), 'Sciopero')]]",
-            path
-        )
+        if os.path.isfile(str(path) + "/ferrovie/Trenord.txt"):
+            train_checker(
+                driver,
+                "https://www.trenord.it/",
+                "Trenord",
+                ".container-alert .alert .text",
+                "//*[contains(@class,'alert') and .//*[contains(text(), 'Sciopero')]]",
+                path
+            )
+        if os.path.isfile(str(path) + "/ferrovie/ATM.txt"):
+            train_checker(
+                driver,
+                # 'https://web.archive.org/web/20220626200054/https://www.atm.it/it/Pagine/default.aspx', # test url
+                "https://www.atm.it/it/Pagine/default.aspx",
+                "ATM",
+                "#infomobilita",
+                "//*[contains(@class,'news-item') and .//*[contains(text(), 'Sciopero')]]",
+                path
+            )
 
         driver.quit()
 

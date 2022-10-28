@@ -105,7 +105,7 @@ fi
 
 # Chiedo quale browser utilizzare
 browser=""
-echo "Quale browser usi? 1) Firefox 2) Chrome 3) Chromium 4) Edge 5) Brave 6) Vivaldi 7) Opera 8) Ungoogled Chromium 9) LibreWolf 0) Chiudi lo script   "
+echo "Quale browser usi? 1) Firefox 2) Chrome 3) Chromium 4) Edge 5) Brave 6) Vivaldi 7) Opera 8) Ungoogled Chromium 9) LibreWolf "
 while [[ "$browser" == "" ]]; do
     browser_list=()
     read browser_decision
@@ -127,13 +127,8 @@ while [[ "$browser" == "" ]]; do
         declare -a browser_list=("ungoogled-chromium" "ungoogled-chromium-bin")
     elif [[ "$browser_decision" == "9" ]]; then
         declare -a browser_list=("librewolf")
-    elif [[ "$browser_decision" == "0" ]]; then
-        echo ""
-        echo "Ciao!"
-        echo ""
-        exit 1
     else
-        echo "Invia un numero da 0 a 9."
+        echo "Invia un numero da 1 a 9."
     fi
     for b in "${browser_list[@]}"; do
         res=$(eval "which" "$b")
@@ -149,7 +144,53 @@ while [[ "$browser" == "" ]]; do
     fi
 done
 
-# Sposto su .local/share
+# Chiedo di quali treni ricevere le notifiche
+cont="s"
+trenord=""
+atm=""
+while [ "$cont" = "s" ]; do
+    echo ""
+    echo "Vuoi ricevere le notifiche per Trenord? [s/n]"
+    while [ "$trenord" = "" ]; do
+        read conft
+        if [ "$conft" = "s" ]; then
+            trenord="s"
+        elif [ "$conft" = "n" ]; then
+            trenord="n"
+        else
+            echo "Premi s o n."
+        fi
+    done
+    echo ""
+    echo "Vuoi ricevere le notifiche per ATM? [s/n]"
+    while [ "$atm" = "" ]; do
+        read confa
+        if [ "$confa" = "s" ]; then
+            atm="s"
+        elif [ "$confa" = "n" ]; then
+            atm="n"
+        else
+            echo "Premi s o n."
+        fi
+    done
+
+    if [[ "$trenord" == "n" && "$atm" == "n" ]]; then
+        echo "Hai detto no a tutte le opzioni. Premi n per fermare l'installazione, qualunque altro tasto per riselezionare le opzioni."
+        read stp
+        if [ "$stp" = "n" ]; then
+            echo ""
+            echo "Ciao!"
+            exit 0
+        else
+            trenord=""
+            atm=""
+        fi
+    else
+        cont="n"
+    fi
+done
+
+# Configuro i file
 echo ""
 echo "Configurando le cartelle su $USRPATH/non-un-altro-sciopero..."
 if [ ! -d "$USRPATH/non-un-altro-sciopero" ]; then
@@ -168,6 +209,24 @@ if [ ! -f "$USRPATH/non-un-altro-sciopero/main.py" ]; then
 fi
 chmod +x "$USRPATH/non-un-altro-sciopero/main.py" >/dev/null 2>&1
 chmod +x "$USRPATH/non-un-altro-sciopero/checker.txt" >/dev/null 2>&1
+if [ "$trenord" = "s" ]; then
+    if [ ! -f "$USRPATH/non-un-altro-sciopero/ferrovie/Trenord.txt" ]; then
+        echo "" >"$USRPATH/non-un-altro-sciopero/ferrovie/Trenord.txt"
+    fi
+else
+    if [ -f "$USRPATH/non-un-altro-sciopero/ferrovie/Trenord.txt" ]; then
+        rm "$USRPATH/non-un-altro-sciopero/ferrovie/Trenord.txt"
+    fi
+fi
+if [ "$atm" = "s" ]; then
+    if [ ! -f "$USRPATH/non-un-altro-sciopero/ferrovie/ATM.txt" ]; then
+        echo "" >"$USRPATH/non-un-altro-sciopero/ferrovie/ATM.txt"
+    fi
+else
+    if [ -f "$USRPATH/non-un-altro-sciopero/ferrovie/ATM.txt" ]; then
+        rm "$USRPATH/non-un-altro-sciopero/ferrovie/ATM.txt"
+    fi
+fi
 
 # Cancello i crontab precedenti
 echo ""

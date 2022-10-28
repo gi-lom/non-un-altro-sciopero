@@ -24,6 +24,8 @@ Se hai un browser basato su Chromium che non è incluso nella lista, puoi provar
 
 **NON SONO SUPPORTATI BROWSER INSTALLATI TRAMITE SNAP E FLATPAK. SE USI UBUNTU 22.04 E SUCCESSIVI, FAI ATTENZIONE CON LA VERSIONE DI FIREFOX PREINSTALLATA, CHE É BASATA SU SNAP**
 
+## Aggiornamenti
+2022/10/28: Aggiunta la possibilità di selezionare di quali servizi ferroviari ricevere le notifiche
 
 ## Testing
 Ho testato lo script su Fedora 36. Ho fatto in modo che lo script funzioni allo stesso modo su tutte le distro Linux. Non possiedo un sistema macOS, dunque non ho modo di vedere se funziona là.
