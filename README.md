@@ -25,6 +25,7 @@ Se hai un browser basato su Chromium che non è incluso nella lista, puoi provar
 **NON SONO SUPPORTATI BROWSER INSTALLATI TRAMITE SNAP E FLATPAK. SE USI UBUNTU 22.04 E SUCCESSIVI, FAI ATTENZIONE CON LA VERSIONE DI FIREFOX PREINSTALLATA, CHE É BASATA SU SNAP**
 
 ## Aggiornamenti
+2022/11/07: Aggiunto il controllo sulla pagina avvisi di Trenord
 2022/10/28: Aggiunta la possibilità di selezionare di quali servizi ferroviari ricevere le notifiche
 
 ## Testing
