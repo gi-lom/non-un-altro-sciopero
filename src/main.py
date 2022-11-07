@@ -104,6 +104,14 @@ def main():
                 "//*[contains(@class,'alert') and .//*[contains(text(), 'Sciopero')]]",
                 path
             )
+            train_checker(
+                driver,
+                "https://www.trenord.it/news/trenord-informa/avvisi/",
+                "Trenord",
+                ".container-archive-news .container-news .text-container",
+                "//*[contains(@class,'title-news') and .//*[contains(text(), 'Sciopero')]]",
+                path
+            )
         if os.path.isfile(str(path) + "/ferrovie/ATM.txt"):
             train_checker(
                 driver,
