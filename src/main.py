@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 from subprocess import run, PIPE
 from time import strftime, localtime
@@ -27,25 +28,23 @@ from webdriver_manager.opera import OperaDriverManager
 def train_checker(driver, website, name, css_element, text_element, path):
     driver.get(website)
     try:
-        alwait = WebDriverWait(driver, 30).until(
+        alwait = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, css_element))
         )
-        els = driver.find_elements(By.XPATH, text_element)
+        els = driver.find_elements(By.CSS_SELECTOR, text_element)
         if len(els) > 0:
-            alert = els[0].text.split("\n")
+            alert = [ els[0].get_attribute("innerHTML") ]
             alert_title = name + ": " + alert[0].lower()
-            alert_desc = alert[1] if len(alert) > 1 else ""
-            if "sciopero" in alert_title.lower() or "sciopero" in alert_desc.lower():
+            if "sciopero" in alert_title.lower():
                 filepath = str(path) + "/ferrovie/"+name+".txt"
                 mode = "r+" if os.path.isfile(filepath) else "w"
                 with open(filepath, mode) as txt:
                     line = txt.readlines() if mode == "r+" else []
-                    text = alert_title + " " + alert_desc
-                    if len(line) == 0 or line[0] != text:
-                        os.system('notify-send "'+alert_title+'" "'+alert_desc+'"')
+                    if len(line) == 0 or line[0] != alert_title:
+                        subprocess.Popen(['notify-send', "Non un altro sciopero!", alert_title])
                         txt.seek(0)
                         txt.truncate()
-                        txt.write(text)            
+                        txt.write(alert_title)
     except (NoSuchElementException, TimeoutException) as e:
         pass
 
@@ -69,8 +68,7 @@ def main():
 
         # Verifica che il browser ci sia
         if len(run(["which", browser_input], stderr=PIPE, text=True).stderr) > 0:
-            os.system(
-                'notify-send "' + "Non un altro sciopero!" + '" "' + "Non è stato trovato il browser indicato quando hai installato lo script. Forse lo hai disinstallato?" + '"')
+            subprocess.Popen(['notify-send', "Non un altro sciopero!: ERRORE", "Non è stato trovato il browser indicato quando hai installato lo script. Forse lo hai disinstallato?"])
             return 1
 
         # Costruisci il driver
@@ -98,10 +96,11 @@ def main():
         if os.path.isfile(str(path) + "/ferrovie/Trenord.txt"):
             train_checker(
                 driver,
+                # "https://web.archive.org/web/20220128135401/https://www.trenord.it/", # test url
                 "https://www.trenord.it/",
                 "Trenord",
-                ".container-alert .alert .text",
-                "//*[contains(@class,'alert') and .//*[contains(text(), 'Sciopero')]]",
+                ".container-alert .alert",
+                ".alert .text span p",
                 path
             )
             train_checker(
@@ -109,7 +108,7 @@ def main():
                 "https://www.trenord.it/news/trenord-informa/avvisi/",
                 "Trenord",
                 ".container-archive-news .container-news .text-container",
-                "//*[contains(@class,'title-news') and .//*[contains(text(), 'Sciopero')]]",
+                ".title-news",
                 path
             )
         if os.path.isfile(str(path) + "/ferrovie/ATM.txt"):
@@ -119,7 +118,7 @@ def main():
                 "https://www.atm.it/it/Pagine/default.aspx",
                 "ATM",
                 "#infomobilita",
-                "//*[contains(@class,'news-item') and .//*[contains(text(), 'Sciopero')]]",
+                ".news-item a",
                 path
             )
 
@@ -127,8 +126,8 @@ def main():
 
     except Exception as e:
         if args.error == "True":
-            os.system(
-                'notify-send "' + "Non un altro sciopero!" + '" "' + "Errore: " + str(e) + '"')
+            subprocess.Popen([
+                'notify-send', "Non un altro sciopero!: ERRORE", str(e)])
 
     return 0
 

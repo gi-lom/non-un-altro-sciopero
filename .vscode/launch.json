@@ -20,7 +20,7 @@
             "program": "/home/random/Documents/it-projects/non_un_altro_sciopero/src/main.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["--browser", "/usr/bin/brave-browser"]
+            "args": ["--browser", "/usr/bin/brave-browser", "--path", "/home/random/Documents/it-projects/non_un_altro_sciopero/src", "--error", "True"]
         }
     ]
 }

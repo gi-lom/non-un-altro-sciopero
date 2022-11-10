@@ -73,12 +73,6 @@ else
     fi
 fi
 
-# Controllo se wget è installato
-if [[ $(which wget) == *"no wget in"* ]]; then
-    echo "Wget non è presente nel tuo sistema. Installalo prima di far girare questo script."
-    exit 1
-fi
-
 # Controllo se il modulo Selenium è installato
 python -c "import selenium" >/dev/null 2>&1
 if [[ $? == 1 ]]; then
